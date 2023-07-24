@@ -79,15 +79,20 @@ async function fetchQueue(token) {
     return await result.json();
 }
 
-function populateUI() {
+async function populateUI() {
     const currentlyPlaying = document.getElementById('currently-playing');
-    currentlyPlaying.innerHTML = 'Currently Playing: ' + queue.currently_playing.name;
+    currentlyPlaying.innerHTML = '<h1>Currently Playing: ' + `<img src=${queue.currently_playing.album.images[2].url}>` + queue.currently_playing.name + ` - ${queue.currently_playing.artists[0].name}</h1>`;
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < queue.queue.length; i++) {
-        string += `<h2>${i+1}. ${queue.queue[i].name}</h2><br>`
+        string += `<h2>${i+1}. ${queue.queue[i].name} - ${queue.queue[i].artists[0].name}</h2><br>`
     }
     queueList.innerHTML = string;
+    const result = await fetch('/queue',  {
+        method: "POST",
+        body: JSON.stringify(queue),
+        headers: { "Content-Type": "application/json" }
+    });
 }
 
 //TODO: send the queue to the API in order to send to other users to populate.

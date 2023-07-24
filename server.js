@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
@@ -13,7 +14,11 @@ class Room {
     }
 }
 
+let queue;
+
 app.use(morgan('tiny'));
+
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname + '/public')))
 
@@ -21,9 +26,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/home.html'));
 });
 
-//TODO add join functionality to rooms
-app.get('/join', (req, res) => {
-    res.send('Hello world!');
+app.post('/queue', (req, res) => {
+    queue = req.body;
+    console.log(queue);
+    res.send('Successfully sent queue to server');
 })
 
 app.listen(PORT, () => {
@@ -33,3 +39,11 @@ app.listen(PORT, () => {
 app.get('/host', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/host.html'));
 });
+
+app.get('/queue', (req, res) => {
+    res.send(queue);
+})
+
+app.get('/join', (req, res) => {
+    res.sendFile(path.join(__dirname + '/public/join.html'));
+})
