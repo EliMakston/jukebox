@@ -1,15 +1,17 @@
 const clientId = '2857db851d23461f82030f8aa666dbdb';
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
+let queue = undefined;
 
 async function code_check() {
     if (!code) {
         redirectToAuthCodeFlow(clientId);
     } else {
         const accessToken = await getAccessToken(clientId, code);
-        const queue = await fetchQueue(accessToken);
+        const response = await fetchQueue(accessToken);
+        queue = response;
         console.log(queue);
-        populateUI(queue);
+        populateUI();
     }
 }
 
@@ -77,8 +79,15 @@ async function fetchQueue(token) {
     return await result.json();
 }
 
-function populateUI(queue) {
-    // TODO: Update UI with queue data
+function populateUI() {
+    const currentlyPlaying = document.getElementById('currently-playing');
+    currentlyPlaying.innerHTML = 'Currently Playing: ' + queue.currently_playing.name;
+    const queueList = document.getElementById('queue-list');
+    let string = '';
+    for (let i = 0; i < queue.queue.length; i++) {
+        string += `<h2>${i+1}. ${queue.queue[i].name}</h2><br>`
+    }
+    queueList.innerHTML = string;
 }
 
 //TODO: send the queue to the API in order to send to other users to populate.
