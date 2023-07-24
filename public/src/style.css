@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "Circular";
+    src: url('/src/fonts/CircularSpotifyTxT-Light.ttf');
+}
+
+* {
+    font-family: "Circular";
+}
