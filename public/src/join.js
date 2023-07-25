@@ -58,7 +58,7 @@ function populateSearch(songList)  {
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < songList.tracks.items.length; i++) {
-        string += `<div class='song'><button class="queue-button" id="${songList.tracks.items[i].uri}">X</button><img src=${songList.tracks.items[i].album.images[2].url}><div class="info"><div class="title">${songList.tracks.items[i].name}</div><div class="artist">${songList.tracks.items[i].artists[0].name}</div></div></div>`
+        string += `<div class="queue-button" id="${songList.tracks.items[i].uri}"><div class='song'><div class="info"><div class="title">${songList.tracks.items[i].name}</div><div class="artist">${songList.tracks.items[i].artists[0].name}</div></div></div></div>`
     }
     queueList.innerHTML = string;
     const heading = document.getElementById('heading');
@@ -66,7 +66,7 @@ function populateSearch(songList)  {
     const buttons = document.getElementsByClassName("queue-button");
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', (e) => {
-            playSongID(e.target.id);
+            playSongID(e.currentTarget.id);
         });
     }
 }
