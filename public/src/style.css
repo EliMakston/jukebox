@@ -19,7 +19,7 @@ main {
     border-radius: 1em;
     margin: 0.5em;
     min-height: 98vh;
-    padding-left: 3em;
+    padding-left: 2em;
 }
 
 h3 {
@@ -108,7 +108,9 @@ input:hover {
 }
 
 #search-submit {
-    color: rgb(102, 102, 102)
+    color: rgb(102, 102, 102);
+    align-self: center;
+    display: inline;
 }
 
 *:focus {
