@@ -72,5 +72,5 @@ app.get('/queue', async (req, res) => {
 
 app.get('/join', (req, res) => {
     //TODO CHANGE BACK TO ACTUAL JOIN FUNCTION
-    res.sendFile(path.join(__dirname + '/public/temp.html'));
+    res.sendFile(path.join(__dirname + '/public/join.html'));
 });

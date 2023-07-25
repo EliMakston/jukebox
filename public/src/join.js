@@ -5,11 +5,11 @@ async function populateUI() {
     const queue = await response.json();
     console.log(queue);
     const currentlyPlaying = document.getElementById('currently-playing');
-    currentlyPlaying.innerHTML = '<h3>Now Playing</h3>' + `<div class='song' id='now-playing'><img src=${queue.currently_playing.album.images[2].url} height=60 width=60><div class="info"><div class="title">${queue.currently_playing.name}</div><div class="artist">${queue.currently_playing.artists[0].name}</div></div></div>`;
+    currentlyPlaying.innerHTML = '<h3>Now Playing</h3>' + `<div class='song' id='now-playing'><h4>1</h4><img src=${queue.currently_playing.album.images[2].url} height=60 width=60><div class="info"><div class="title">${queue.currently_playing.name}</div><div class="artist">${queue.currently_playing.artists[0].name}</div></div></div>`;
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < queue.queue.length; i++) {
-        string += `<h2>${i+1}. ${queue.queue[i].name} - ${queue.queue[i].artists[0].name}</h2><br>`
+        string += `<div class='song'><h4>${i+2}</h4><img src=${queue.queue[i].album.images[2].url}><div class="info"><div class="title">${queue.queue[i].name}</div><div class="artist">${queue.queue[i].artists[0].name}</div></div></div>`
     }
     queueList.innerHTML = string;
 }
@@ -19,6 +19,7 @@ async function playSongID(songId) {
         method: 'POST'
     });
     if (response.ok) {
+        await sleep(500);
         populateUI();
     }
 }
@@ -38,15 +39,18 @@ async function getSongs(searchValue) {
         method: "GET"
     });
     const songList = await result.json();
-    console.log(songList);
     populateSearch(songList);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function populateSearch(songList)  {
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < songList.tracks.items.length; i++) {
-        string += `<h2>${i+1}. ${songList.tracks.items[i].name} - ${songList.tracks.items[i].artists[0].name}</h2><button class="queue-button" id="${songList.tracks.items[i].uri}">Queue It</button><br>`
+        string += `<div class='song'><button class="queue-button" id="${songList.tracks.items[i].uri}">X</button><img src=${songList.tracks.items[i].album.images[2].url}><div class="info"><div class="title">${songList.tracks.items[i].name}</div><div class="artist">${songList.tracks.items[i].artists[0].name}</div></div></div>`
     }
     queueList.innerHTML = string;
     const buttons = document.getElementsByClassName("queue-button");
