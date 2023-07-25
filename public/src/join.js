@@ -3,8 +3,9 @@ async function populateUI() {
         method: "GET"
     });
     const queue = await response.json();
+    console.log(queue);
     const currentlyPlaying = document.getElementById('currently-playing');
-    currentlyPlaying.innerHTML = '<h1>Currently Playing: ' + `<img src=${queue.currently_playing.album.images[2].url}>` + queue.currently_playing.name + ` - ${queue.currently_playing.artists[0].name}</h1>`;
+    currentlyPlaying.innerHTML = '<h3>Now Playing</h3>' + `<div class='song' id='now-playing'><img src=${queue.currently_playing.album.images[2].url} height=60 width=60><div class="info"><div class="title">${queue.currently_playing.name}</div><div class="artist">${queue.currently_playing.artists[0].name}</div></div></div>`;
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < queue.queue.length; i++) {

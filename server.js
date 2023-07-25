@@ -71,9 +71,6 @@ app.get('/queue', async (req, res) => {
 });
 
 app.get('/join', (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/join.html'));
+    //TODO CHANGE BACK TO ACTUAL JOIN FUNCTION
+    res.sendFile(path.join(__dirname + '/public/temp.html'));
 });
-
-// const result = await fetch("https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${trackFromSearch}", {
-//     method: "POST", headers: { Authorization: `Bearer ${token}` }
-// });
