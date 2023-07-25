@@ -39,7 +39,7 @@ async function APIController() {
     accessToken = access_token;
 }
 
-APIController();
+//APIController();
 
 app.use(morgan('tiny'));
 
@@ -60,7 +60,7 @@ app.post('/queue', async (req, res) => {
 app.get('/song', async (req, res) => {
     const searchValue = req.query.search;
     const result = await fetch(`https://api.spotify.com/v1/search?q=${searchValue}&type=track`, {
-        method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
+        method: "GET", headers: { Authorization: `Bearer ${playerToken}` }
     });
     const response = await result.json();
     res.send(response);
