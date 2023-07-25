@@ -24,7 +24,7 @@ async function redirectToAuthCodeFlow(clientId) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "https://group-queue.onrender.com/host");
+    params.append("redirect_uri", "http://localhost:8080/host");
     params.append("scope", "user-read-private user-read-email user-modify-playback-state user-read-playback-state");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
@@ -58,7 +58,7 @@ async function getAccessToken(clientId, code) {
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "https://group-queue.onrender.com/host");
+    params.append("redirect_uri", "http://localhost:8080/host");
     params.append("code_verifier", verifier);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -81,11 +81,11 @@ async function fetchQueue(token) {
 
 async function populateUI(accessToken) {
     const currentlyPlaying = document.getElementById('currently-playing');
-    currentlyPlaying.innerHTML = '<h1>Currently Playing: ' + `<img src=${queue.currently_playing.album.images[2].url}>` + queue.currently_playing.name + ` - ${queue.currently_playing.artists[0].name}</h1>`;
+    currentlyPlaying.innerHTML = '<h3>Now Playing</h3>' + `<div class='song' id='now-playing'><h4>1</h4><img src=${queue.currently_playing.album.images[2].url} height=60 width=60><div class="info"><div class="title">${queue.currently_playing.name}</div><div class="artist">${queue.currently_playing.artists[0].name}</div></div></div>`;
     const queueList = document.getElementById('queue-list');
     let string = '';
     for (let i = 0; i < queue.queue.length; i++) {
-        string += `<h2>${i+1}. ${queue.queue[i].name} - ${queue.queue[i].artists[0].name}</h2><br>`
+        string += `<div class='song'><h4>${i+2}</h4><img src=${queue.queue[i].album.images[2].url}><div class="info"><div class="title">${queue.queue[i].name}</div><div class="artist">${queue.queue[i].artists[0].name}</div></div></div>`
     }
     queueList.innerHTML = string;
     const result = await fetch(`/queue?access=${accessToken}`,  {

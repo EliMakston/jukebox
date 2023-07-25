@@ -58,7 +58,7 @@ app.get('/host', (req, res) => {
     if (!queue) {
         res.sendFile(path.join(__dirname + '/public/host.html'));
     } else {
-        res.sendFile(path.join(__dirname + '/public/host-error.html'));
+        res.sendFile(path.join(__dirname + '/public/join.html'));
     }
 });
 
@@ -71,6 +71,5 @@ app.get('/queue', async (req, res) => {
 });
 
 app.get('/join', (req, res) => {
-    //TODO CHANGE BACK TO ACTUAL JOIN FUNCTION
     res.sendFile(path.join(__dirname + '/public/join.html'));
 });
