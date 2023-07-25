@@ -6,16 +6,23 @@ const app = express();
 
 const PORT = 8080
 
+const roomArray = [];
+
 class Room {
-    constructor(mainUserId, userList, roomId) {
-        this.mainUserId = mainUserId;
-        this.userList = [];
-        this.roomId = 0;
+    constructor(userToken, queue) {
+        this.userToken = userToken;
+        this.queue = queue;
+        this.roomId = generateRoomId();
     }
 }
 
-let queue;
-let accessToken;
+function generateRoomId (){
+    let string = '';
+    for (let i = 0; i < 6; i++) {
+        string += Math.floor(Math.random() * 10);
+    }
+    return string;
+}
 
 app.use(morgan('tiny'));
 
@@ -28,12 +35,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/queue', async (req, res) => {
-    queue = req.body;
-    accessToken = req.query.access;
-    res.send('Successfully sent queue to server');
+    const newRoom = new Room(req.query.access, req.body);
+    console.log(newRoom);
+    roomArray.push(newRoom);
+    res.send(newRoom.roomId);
 });
 
 app.get('/song', async (req, res) => {
+    const accessToken = getRoomToken(req.query.roomId);
     const searchValue = req.query.search;
     const result = await fetch(`https://api.spotify.com/v1/search?q=${searchValue}&type=track`, {
         method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
@@ -43,6 +52,7 @@ app.get('/song', async (req, res) => {
 })
 
 app.post('/song', async (req, res) => {
+    const accessToken = getRoomToken(req.query.roomId);
     const trackFromSearch = req.query.songId;
     const result = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${trackFromSearch}`, {
         method: "POST", headers: { Authorization: `Bearer ${accessToken}` }
@@ -55,14 +65,11 @@ app.listen(PORT, () => {
 });
 
 app.get('/host', (req, res) => {
-    if (!queue) {
-        res.sendFile(path.join(__dirname + '/public/host.html'));
-    } else {
-        res.sendFile(path.join(__dirname + '/public/join.html'));
-    }
+    res.sendFile(path.join(__dirname + '/public/host.html'));
 });
 
 app.get('/queue', async (req, res) => {
+    const accessToken = getRoomToken(req.query.roomId);
     const result = await fetch("https://api.spotify.com/v1/me/player/queue", {
         method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
     });
@@ -73,3 +80,11 @@ app.get('/queue', async (req, res) => {
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/join.html'));
 });
+
+function getRoomToken(roomId) {
+    for (let i = 0; i < roomArray.length; i++) {
+        if (roomId === roomArray[i].roomId) {
+            return roomArray[i].userToken;
+        }
+    }
+}

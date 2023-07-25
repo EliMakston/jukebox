@@ -1,5 +1,11 @@
+const params = window.location.search;
+const urlParams = new URLSearchParams(params);
+
+const roomId = urlParams.get('roomId');
+console.log(roomId);
+
 async function populateUI() {
-    const response = await fetch('/queue', {
+    const response = await fetch(`/queue?roomId=${roomId}`, {
         method: "GET"
     });
     const queue = await response.json();
@@ -17,7 +23,7 @@ async function populateUI() {
 }
 
 async function playSongID(songId) {
-    const response = await fetch(`/song?songId=${songId}`,  {
+    const response = await fetch(`/song?songId=${songId}&roomId=${roomId}`,  {
         method: 'POST'
     });
     if (response.ok) {
@@ -37,7 +43,7 @@ searchForm.addEventListener('submit', async (e) => {
 });
 
 async function getSongs(searchValue) {
-    const result = await fetch(`/song?search=${searchValue}`, {
+    const result = await fetch(`/song?search=${searchValue}&roomId=${roomId}`, {
         method: "GET"
     });
     const songList = await result.json();

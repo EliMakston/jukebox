@@ -93,6 +93,9 @@ async function populateUI(accessToken) {
         body: JSON.stringify(queue),
         headers: { "Content-Type": "application/json" }
     });
+    const response = await result.json();
+    const roomIdHeading = document.getElementById('room-id-head');
+    roomIdHeading.innerHTML = "Room ID: " + response;
 }
 
 code_check();
