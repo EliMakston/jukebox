@@ -55,7 +55,11 @@ app.listen(PORT, () => {
 });
 
 app.get('/host', (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/host.html'));
+    if (!queue) {
+        res.sendFile(path.join(__dirname + '/public/host.html'));
+    } else {
+        res.sendFile(path.join(__dirname + '/public/host-error.html'));
+    }
 });
 
 app.get('/queue', async (req, res) => {
