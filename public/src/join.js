@@ -4,6 +4,8 @@ async function populateUI() {
     });
     const queue = await response.json();
     console.log(queue);
+    const heading = document.getElementById('heading');
+    heading.innerHTML = 'Next Up';
     const currentlyPlaying = document.getElementById('currently-playing');
     currentlyPlaying.innerHTML = '<h3>Now Playing</h3>' + `<div class='song' id='now-playing'><h4>1</h4><img src=${queue.currently_playing.album.images[2].url} height=60 width=60><div class="info"><div class="title">${queue.currently_playing.name}</div><div class="artist">${queue.currently_playing.artists[0].name}</div></div></div>`;
     const queueList = document.getElementById('queue-list');
@@ -53,6 +55,8 @@ function populateSearch(songList)  {
         string += `<div class='song'><button class="queue-button" id="${songList.tracks.items[i].uri}">X</button><img src=${songList.tracks.items[i].album.images[2].url}><div class="info"><div class="title">${songList.tracks.items[i].name}</div><div class="artist">${songList.tracks.items[i].artists[0].name}</div></div></div>`
     }
     queueList.innerHTML = string;
+    const heading = document.getElementById('heading');
+    heading.innerHTML = 'Search Results';
     const buttons = document.getElementsByClassName("queue-button");
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', (e) => {

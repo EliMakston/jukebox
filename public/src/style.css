@@ -90,6 +90,7 @@ input:hover {
     border-radius: 2em;
     width: 80%;
     height: 4em;
+    display:inline;
 }
 
 #song-bar:hover {
@@ -103,7 +104,7 @@ input:hover {
 
 #song-id {
     padding-left: 2em;
-    width: 90%;
+    width: 70%;
     height: 100%;
 }
 
@@ -111,6 +112,8 @@ input:hover {
     color: rgb(102, 102, 102);
     align-self: center;
     display: inline;
+    padding-right: 1em;
+    right: 3em;
 }
 
 *:focus {
