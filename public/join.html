@@ -10,16 +10,17 @@
   </head>
   <body>
     <main>
-        <h1>Group Queue</h1>  
-    </main>
-    <form id="search">
-      <input type="text" name="song-id" id="song-id"/>
-      <input type="submit"/>
-    </form>
-    <div id="currently-playing"></div>
-    <div id="queue-list">
+        <h1 id="title">Group Queue</h1>
+        <form id="search">
+          <div id="song-bar"><input type="text" name="song-id" id="song-id" autocomplete="off"><input type="submit" id="search-submit"></div>
+        </form>
+        <div id="currently-playing">
+        </div>
+        <h3>Next Up</h3>
+      <div id="queue-list">
 
-    </div>
+      </div>
+    </main>
 	  <script src="./src/join.js"></script>
   </body>
 </html>

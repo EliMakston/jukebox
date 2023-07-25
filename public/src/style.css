@@ -5,4 +5,133 @@
 
 * {
     font-family: "Circular";
+    padding: 0;
+    margin: 0;
+    color: white;
+}
+
+body {
+    background-color: black;
+}
+
+main {
+    background-color: rgb(18, 18, 18);
+    border-radius: 1em;
+    margin: 0.5em;
+    min-height: 98vh;
+    padding-left: 7em;
+}
+
+h3 {
+    color: rgb(167, 167, 167);
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+#title {
+    padding-top: 3em;
+    padding-bottom: 0.5em;
+}
+
+.song {
+    padding-left: 1em;
+    display: flex;
+    padding-bottom: 1em;
+}
+
+.info {
+    padding: 0.5em;
+}
+
+.artist {
+    color: rgb(179, 179, 179);
+}
+
+#currently-playing {
+    padding-bottom: 1em;
+}
+
+h4 {
+    align-self: center;
+    color: rgb(179, 179, 179);
+    padding-right: 1em;
+}
+
+input {
+    border: none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+input:active {
+    border: none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+input:hover {
+    border: none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#song-bar {
+    background-color: rgb(36, 36, 36);
+    border: 0.2em rgb(36, 36, 36) solid;
+    border-radius: 2em;
+    width: 80%;
+    height: 4em;
+}
+
+#song-bar:hover {
+    background-color: rgb(42, 42, 42);
+    border: 0.2em rgb(49, 49, 49) solid;
+}
+
+#song-bar:hover #search-submit {
+    color: white;
+}
+
+#song-id {
+    padding-left: 2em;
+    width: 90%;
+    height: 100%;
+}
+
+#search-submit {
+    color: rgb(102, 102, 102)
+}
+
+*:focus {
+    outline: none;
+}
+
+.queue-button {
+    border: none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display: inline;
+    align-self: center;
+    color: rgb(179, 179, 179);
+    padding-right: 1em;
+}
+
+.queue-button:hover {
+    color: white;
+}
+
+.queue-button:active {
+    color: rgb(101, 202, 110);
 }
