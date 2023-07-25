@@ -11,8 +11,13 @@
   <body>
     <main>
         <h1 id="title">Group Queue</h1>  
-      <a href="/host">Host</a>
-      <a href="/join">Join</a>
+      <div id="buttons">
+        <div id="host-button" class="option"><a href="/host">Host</a></div>
+        <div id="join-button" class="option"><label for="room-id">Room ID</label><input type='text' id="room-id"/><div id="room-button">Join</div></div>
+      </div>
     </main>
   </body>
+  <script src="./src/home.js"></script>
 </html>
+
+## TODO create a room id for join request. Append that id to all requests made from the join url.

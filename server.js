@@ -19,7 +19,7 @@ class Room {
 function generateRoomId (){
     let string = '';
     for (let i = 0; i < 6; i++) {
-        string += toString(Math.floor(Math.random() * 10));
+        string += Math.floor(Math.random() * 10);
     }
     return string;
 }
@@ -35,13 +35,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/queue', async (req, res) => {
-    const newRoom = new Room(req.params.accessToken, req.params.queue);
+    const newRoom = new Room(req.query.access, req.body);
+    console.log(newRoom);
     roomArray.push(newRoom);
-    res.send('Successfully sent queue to server');
+    res.send(newRoom.roomId);
 });
 
 app.get('/song', async (req, res) => {
-    const accessToken = getRoomToken(req.params.roomId);
+    const accessToken = getRoomToken(req.query.roomId);
     const searchValue = req.query.search;
     const result = await fetch(`https://api.spotify.com/v1/search?q=${searchValue}&type=track`, {
         method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
@@ -51,7 +52,7 @@ app.get('/song', async (req, res) => {
 })
 
 app.post('/song', async (req, res) => {
-    const accessToken = getRoomToken(req.params.roomId);
+    const accessToken = getRoomToken(req.query.roomId);
     const trackFromSearch = req.query.songId;
     const result = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${trackFromSearch}`, {
         method: "POST", headers: { Authorization: `Bearer ${accessToken}` }
@@ -64,15 +65,11 @@ app.listen(PORT, () => {
 });
 
 app.get('/host', (req, res) => {
-    if (!queue) {
-        res.sendFile(path.join(__dirname + '/public/host.html'));
-    } else {
-        res.sendFile(path.join(__dirname + '/public/join.html'));
-    }
+    res.sendFile(path.join(__dirname + '/public/host.html'));
 });
 
 app.get('/queue', async (req, res) => {
-    const accessToken = getRoomToken(req.params.roomId);
+    const accessToken = getRoomToken(req.query.roomId);
     const result = await fetch("https://api.spotify.com/v1/me/player/queue", {
         method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
     });
