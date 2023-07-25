@@ -135,9 +135,10 @@ input:hover {
 
 .queue-button:hover {
     color: white;
+    cursor: pointer;
 }
 
-.queue-button:active {
+.queue-button:active .title{
     color: rgb(101, 202, 110);
 }
 

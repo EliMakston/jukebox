@@ -88,3 +88,6 @@ function getRoomToken(roomId) {
         }
     }
 }
+
+// TODO let joined users access their playlists for songs
+// TODO let host access the joined users funcitonality
