@@ -33,9 +33,18 @@ app.post('/queue', async (req, res) => {
     res.send('Successfully sent queue to server');
 });
 
+app.get('/song', async (req, res) => {
+    const searchValue = req.query.search;
+    const result = await fetch(`https://api.spotify.com/v1/search?q=${searchValue}&type=track`, {
+        method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    const response = await result.json();
+    res.send(response);
+})
+
 app.post('/song', async (req, res) => {
     const trackFromSearch = req.query.songId;
-    const result = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${trackFromSearch}`, {
+    const result = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=${trackFromSearch}`, {
         method: "POST", headers: { Authorization: `Bearer ${accessToken}` }
     });
     res.send('This worked');
@@ -49,15 +58,18 @@ app.get('/host', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/host.html'));
 });
 
-app.get('/queue', (req, res) => {
+app.get('/queue', async (req, res) => {
+    const result = await fetch("https://api.spotify.com/v1/me/player/queue", {
+        method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    queue = await result.json();
     res.send(queue);
-})
+});
 
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/join.html'));
 });
 
-// TODO send access token to server, and then add to queue
 // const result = await fetch("https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${trackFromSearch}", {
 //     method: "POST", headers: { Authorization: `Bearer ${token}` }
 // });

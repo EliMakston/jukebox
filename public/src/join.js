@@ -13,23 +13,47 @@ async function populateUI() {
     queueList.innerHTML = string;
 }
 
-async function searchSongID(songId) {
+async function playSongID(songId) {
     const response = await fetch(`/song?songId=${songId}`,  {
         method: 'POST'
     });
-    const responseText = response.json();
-    console.log(responseText);
+    if (response.ok) {
+        populateUI();
+    }
 }
 
 const searchForm = document.getElementById('search');
+const searchBar = document.getElementById('song-id');
 
-searchForm.addEventListener('submit', (e) => {
+searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const songIdBar = document.getElementById('song-id');
-    const songId = songIdBar.value;
-    songIdBar.value = '';
-    console.log(songId);
-    searchSongID(songId);
-})
+    const searchValue = searchBar.value;
+    searchBar.value = '';
+    getSongs(searchValue);
+});
+
+async function getSongs(searchValue) {
+    const result = await fetch(`/song?search=${searchValue}`, {
+        method: "GET"
+    });
+    const songList = await result.json();
+    console.log(songList);
+    populateSearch(songList);
+}
+
+function populateSearch(songList)  {
+    const queueList = document.getElementById('queue-list');
+    let string = '';
+    for (let i = 0; i < songList.tracks.items.length; i++) {
+        string += `<h2>${i+1}. ${songList.tracks.items[i].name} - ${songList.tracks.items[i].artists[0].name}</h2><button class="queue-button" id="${songList.tracks.items[i].uri}">Queue It</button><br>`
+    }
+    queueList.innerHTML = string;
+    const buttons = document.getElementsByClassName("queue-button");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', (e) => {
+            playSongID(e.target.id);
+        });
+    }
+}
 
 populateUI();

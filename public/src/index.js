@@ -24,7 +24,7 @@ async function redirectToAuthCodeFlow(clientId) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "https://group-queue.onrender.com/host");
+    params.append("redirect_uri", "http://localhost:8080/host");
     params.append("scope", "user-read-private user-read-email user-modify-playback-state user-read-playback-state");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
@@ -58,7 +58,7 @@ async function getAccessToken(clientId, code) {
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "https://group-queue.onrender.com/host");
+    params.append("redirect_uri", "http://localhost:8080/host");
     params.append("code_verifier", verifier);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -93,9 +93,6 @@ async function populateUI(accessToken) {
         body: JSON.stringify(queue),
         headers: { "Content-Type": "application/json" }
     });
-    //TODO send the access token to express to make queue requests
 }
-
-//TODO: send the queue to the API in order to send to other users to populate.
 
 code_check();
