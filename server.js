@@ -36,7 +36,7 @@ async function APIController() {
     }
 
     const access_token = await _getToken();
-    return accessToken;
+    accessToken = access_token;
 }
 
 APIController();
