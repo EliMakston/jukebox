@@ -13,4 +13,23 @@ async function populateUI() {
     queueList.innerHTML = string;
 }
 
+async function searchSongID(songId) {
+    const response = await fetch(`/song?songId=${songId}`,  {
+        method: 'POST'
+    });
+    const responseText = response.json();
+    console.log(responseText);
+}
+
+const searchForm = document.getElementById('search');
+
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const songIdBar = document.getElementById('song-id');
+    const songId = songIdBar.value;
+    songIdBar.value = '';
+    console.log(songId);
+    searchSongID(songId);
+})
+
 populateUI();

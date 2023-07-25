@@ -11,7 +11,7 @@ async function code_check() {
         const response = await fetchQueue(accessToken);
         queue = response;
         console.log(queue);
-        populateUI();
+        populateUI(accessToken);
     }
 }
 
@@ -79,7 +79,7 @@ async function fetchQueue(token) {
     return await result.json();
 }
 
-async function populateUI() {
+async function populateUI(accessToken) {
     const currentlyPlaying = document.getElementById('currently-playing');
     currentlyPlaying.innerHTML = '<h1>Currently Playing: ' + `<img src=${queue.currently_playing.album.images[2].url}>` + queue.currently_playing.name + ` - ${queue.currently_playing.artists[0].name}</h1>`;
     const queueList = document.getElementById('queue-list');
@@ -88,11 +88,12 @@ async function populateUI() {
         string += `<h2>${i+1}. ${queue.queue[i].name} - ${queue.queue[i].artists[0].name}</h2><br>`
     }
     queueList.innerHTML = string;
-    const result = await fetch('/queue',  {
+    const result = await fetch(`/queue?access=${accessToken}`,  {
         method: "POST",
         body: JSON.stringify(queue),
         headers: { "Content-Type": "application/json" }
     });
+    //TODO send the access token to express to make queue requests
 }
 
 //TODO: send the queue to the API in order to send to other users to populate.

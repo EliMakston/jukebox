@@ -15,6 +15,7 @@ class Room {
 }
 
 let queue;
+let accessToken;
 
 app.use(morgan('tiny'));
 
@@ -26,10 +27,18 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/home.html'));
 });
 
-app.post('/queue', (req, res) => {
+app.post('/queue', async (req, res) => {
     queue = req.body;
-    console.log(queue);
+    accessToken = req.query.access;
     res.send('Successfully sent queue to server');
+});
+
+app.post('/song', async (req, res) => {
+    const trackFromSearch = req.query.songId;
+    const result = await fetch(`https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${trackFromSearch}`, {
+        method: "POST", headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    res.send('This worked');
 })
 
 app.listen(PORT, () => {
@@ -46,4 +55,9 @@ app.get('/queue', (req, res) => {
 
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/join.html'));
-})
+});
+
+// TODO send access token to server, and then add to queue
+// const result = await fetch("https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${trackFromSearch}", {
+//     method: "POST", headers: { Authorization: `Bearer ${token}` }
+// });
