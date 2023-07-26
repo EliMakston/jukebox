@@ -1,5 +1,7 @@
 const params = window.location.search;
 const urlParams = new URLSearchParams(params);
+const searchForm = document.getElementById('search');
+const searchBar = document.getElementById('song-id');
 
 const roomId = urlParams.get('roomId');
 console.log(roomId);
@@ -28,18 +30,26 @@ async function playSongID(songId) {
     });
     if (response.ok) {
         await sleep(500);
+        searchBar.value = '';
         populateUI();
     }
 }
 
-const searchForm = document.getElementById('search');
-const searchBar = document.getElementById('song-id');
 
 searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const searchValue = searchBar.value;
     searchBar.value = '';
     getSongs(searchValue);
+});
+
+searchBar.addEventListener('input', (e) => {
+    if (searchBar.value === '') {
+        populateUI();
+    } else {
+        const searchValue = searchBar.value;
+        getSongs(searchValue);
+    }
 });
 
 async function getSongs(searchValue) {
