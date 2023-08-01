@@ -12,8 +12,6 @@
 
 body {
     background-color: black;
-    display: flex;
-    align-items: center;
 }
 
 main {
@@ -21,7 +19,6 @@ main {
     border-radius: 1em;
     margin: 0.5em;
     min-height: 98vh;
-    width: 85vw;
     padding-left: 2em;
 }
 
